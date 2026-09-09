@@ -19,7 +19,7 @@ import {
   PHI_FIELDS,
   TUMOR_ONLY_CONTEXT,
 } from "./config";
-import { Button, Col } from "react-bootstrap";
+import { Button, Col, Form } from "react-bootstrap";
 import { FilterButtons } from "../../components/FilterButtons";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { DownloadButton } from "../../components/DownloadButton";
@@ -34,6 +34,7 @@ import { POLL_INTERVAL, ROUTE_PARAMS } from "../../configs/shared";
 import { CohortBuilderContainer } from "../../components/CohortBuilderContainer";
 import { CohortBuilderWindow } from "../../components/CohortBuilderWindow";
 import { Close, NoteAddOutlined, OpenInNew } from "@material-ui/icons";
+import InfoIcon from "@material-ui/icons/InfoOutlined";
 import { CustomTooltip } from "../../components/CustomToolTip";
 import { SampleHistoryModal } from "../../components/SamplesModal";
 import { useParams } from "react-router-dom";
@@ -211,16 +212,31 @@ export function SamplesPage() {
             onSearch={refreshData}
             recordCount={recordCount}
             isLoading={isLoading}
-            prioritizeIdMatches={prioritizeIdMatches}
-            setPrioritizeIdMatches={setPrioritizeIdMatches}
           />
+
+          <div className="vr" />
+
+          <div className="d-flex align-items-center gap-1">
+            <Form.Check
+              type="switch"
+              id="prioritize-ids-switch"
+              className="mt-1"
+              label="Prioritize ID matches"
+              checked={prioritizeIdMatches}
+              onChange={(e) => setPrioritizeIdMatches(e.currentTarget.checked)}
+            />
+            <CustomTooltip
+              icon={<InfoIcon style={{ fontSize: 18, color: "grey" }} />}
+            >
+              When enabled, prioritizes matches to sample/patient ID fields
+              (much faster). When disabled, performs a broader search across all
+              fields.
+            </CustomTooltip>
+          </div>
 
           {/* Only show PHI mode switch on "All" view */}
           {recordContexts === undefined && (
-            <>
-              <div className="vr" />
-              <PhiModeSwitch>{phiModeSwitchTooltipContent}</PhiModeSwitch>
-            </>
+            <PhiModeSwitch>{phiModeSwitchTooltipContent}</PhiModeSwitch>
           )}
 
           {changes.length > 0 && (
