@@ -1318,3 +1318,7 @@ export const phiModeSwitchTooltipContent =
   " in and (2) just performed a search with specific DMP Sample IDs. Turning" +
   " on this switch for the first time will prompt you to log in if you have" +
   " not already.";
+
+export const prioritizeIdMatchesTooltipContent =
+  "When enabled, prioritizes matches to sample/patient ID fields (much" +
+  " faster). When disabled, performs a broader search across all fields.";
