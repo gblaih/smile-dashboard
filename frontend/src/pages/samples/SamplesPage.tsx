@@ -15,6 +15,7 @@ import {
   filterButtonOptions,
   filterButtonsTooltipContent,
   phiModeSwitchTooltipContent,
+  prioritizeIdMatchesTooltipContent,
   BILLING_FIELDS,
   PHI_FIELDS,
   TUMOR_ONLY_CONTEXT,
@@ -34,6 +35,7 @@ import { POLL_INTERVAL, ROUTE_PARAMS } from "../../configs/shared";
 import { CohortBuilderContainer } from "../../components/CohortBuilderContainer";
 import { CohortBuilderWindow } from "../../components/CohortBuilderWindow";
 import { Close, NoteAddOutlined, OpenInNew } from "@material-ui/icons";
+import { PrioritizeIdMatchesSwitch } from "../../components/PrioritizeIdMatchesSwitch";
 import { CustomTooltip } from "../../components/CustomToolTip";
 import { SampleHistoryModal } from "../../components/SamplesModal";
 import { useParams } from "react-router-dom";
@@ -47,6 +49,7 @@ const RECORD_NAME = "samples";
 
 export function SamplesPage() {
   const [userSearchVal, setUserSearchVal] = useState("");
+  const [prioritizeIdMatches, setPrioritizeIdMatches] = useState(false);
   const hasParams = Object.keys(useParams()).length > 0;
   const smileSampleId = useParams()[ROUTE_PARAMS.samples];
   const [colDefs, setColDefs] = useState(filterButtonOptions[0].colDefs);
@@ -112,6 +115,7 @@ export function SamplesPage() {
     recordContexts: effectiveRecordContexts,
     pollInterval: POLL_INTERVAL,
     includeDemographics,
+    prioritizeIdMatches,
   });
 
   useEffect(() => {
@@ -147,6 +151,7 @@ export function SamplesPage() {
       recordCount,
       queryName: QUERY_NAME,
       includeDemographics,
+      prioritizeIdMatches,
     });
 
   const downloadOptions = buildDownloadOptions({
@@ -210,12 +215,18 @@ export function SamplesPage() {
             isLoading={isLoading}
           />
 
+          <div className="vr" />
+
+          <PrioritizeIdMatchesSwitch
+            prioritizeIdMatches={prioritizeIdMatches}
+            setPrioritizeIdMatches={setPrioritizeIdMatches}
+          >
+            {prioritizeIdMatchesTooltipContent}
+          </PrioritizeIdMatchesSwitch>
+
           {/* Only show PHI mode switch on "All" view */}
           {recordContexts === undefined && (
-            <>
-              <div className="vr" />
-              <PhiModeSwitch>{phiModeSwitchTooltipContent}</PhiModeSwitch>
-            </>
+            <PhiModeSwitch>{phiModeSwitchTooltipContent}</PhiModeSwitch>
           )}
 
           {changes.length > 0 && (
