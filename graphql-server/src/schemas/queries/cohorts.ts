@@ -18,6 +18,7 @@ const FIELDS_TO_SEARCH = [
   "importDate",
   "endUsers",
   "pmUsers",
+  "piName",
   "projectTitle",
   "projectSubtitle",
   "status",
@@ -95,7 +96,10 @@ export function buildCohortsQueryBody({
       apoc.coll.toSet(
         COLLECT(DISTINCT latestSm[0].cmoSampleName) +
         COLLECT(DISTINCT latestSm[0].primaryId)
-      ) AS searchableSampleIds
+      ) AS searchableSampleIds,
+      apoc.coll.toSet(
+        [x IN COLLECT(DISTINCT latestSm[0].igoRequestId) WHERE x IS NOT NULL]
+      ) AS projectsIncluded
 
     // Calculate values for the "Billed" column
     WITH
@@ -111,7 +115,8 @@ export function buildCohortsQueryBody({
                   ELSE "No"
               END
       END AS billed,
-      searchableSampleIds
+      searchableSampleIds,
+      projectsIncluded
 
     WITH
       c,
@@ -119,13 +124,15 @@ export function buildCohortsQueryBody({
       sampleIdsByCohort,
       totalSampleCount,
       billed,
-      searchableSampleIds
+      searchableSampleIds,
+      projectsIncluded
 
     WITH ({
       cohortId: c.cohortId,
       sampleIdsByCohort: sampleIdsByCohort,
       totalSampleCount: totalSampleCount,
       searchableSampleIds: apoc.text.join(searchableSampleIds, ","),
+      projectsIncluded: projectsIncluded,
       billed: billed,
       initialCohortDeliveryDate: initialCohortDeliveryDate
     }) as tempNode,
@@ -153,6 +160,7 @@ export function buildCohortsQueryBody({
         status: latestCC.status,
         type: latestCC.type,
         pipelineVersion: latestCC.pipelineVersion,
+        piName: latestCC.piName,
         cohortValidationStatus: CASE WHEN latestValidationStatus IS NULL THEN null ELSE {
           jsonSchemaValidated: latestValidationStatus.jsonSchemaValidated,
           passesAllChecks: latestValidationStatus.passesAllChecks,

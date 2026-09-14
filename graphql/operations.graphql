@@ -119,6 +119,8 @@ query DashboardCohorts(
         normalPrimaryId
       }
     }
+    piName
+    projectsIncluded
   }
 }
 
@@ -350,6 +352,7 @@ mutation UpdateTempoCohort($dashboardCohort: DashboardCohortInput!) {
     samples {
       primaryId
     }
+    piName
   }
 }
 
@@ -369,5 +372,6 @@ mutation PublishNewTempoCohortRequest(
       cmoId
       embargoDate
     }
+    piName
   }
 }
