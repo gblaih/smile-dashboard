@@ -95,7 +95,8 @@ export function buildCohortsQueryBody({
       REDUCE(sum = 0, x in COLLECT(billedCounts) | sum + x) AS billedCount,
       apoc.coll.toSet(
         COLLECT(DISTINCT latestSm[0].cmoSampleName) +
-        COLLECT(DISTINCT latestSm[0].primaryId)
+        COLLECT(DISTINCT latestSm[0].primaryId) +
+        [x IN COLLECT(DISTINCT latestSm[0].igoRequestId) WHERE x IS NOT NULL]
       ) AS searchableSampleIds,
       apoc.coll.toSet(
         [x IN COLLECT(DISTINCT latestSm[0].igoRequestId) WHERE x IS NOT NULL]
