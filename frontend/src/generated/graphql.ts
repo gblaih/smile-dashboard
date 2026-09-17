@@ -1488,6 +1488,7 @@ export type DashboardCohort = {
   projectTitle?: Maybe<Scalars['String']['output']>;
   projectsIncluded?: Maybe<Array<Scalars['String']['output']>>;
   samples?: Maybe<Array<TempoCohortSample>>;
+  searchableProjectsIncluded?: Maybe<Scalars['String']['output']>;
   searchableSampleIds?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   totalSampleCount?: Maybe<Scalars['Int']['output']>;
@@ -1510,6 +1511,7 @@ export type DashboardCohortInput = {
   projectSubtitle?: InputMaybe<Scalars['String']['input']>;
   projectTitle?: InputMaybe<Scalars['String']['input']>;
   samples?: InputMaybe<Array<TempoCohortSampleInput>>;
+  searchableProjectsIncluded?: InputMaybe<Scalars['String']['input']>;
   searchableSampleIds?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   totalSampleCount?: InputMaybe<Scalars['Int']['input']>;
@@ -12200,7 +12202,7 @@ export type DashboardCohortsQueryVariables = Exact<{
 }>;
 
 
-export type DashboardCohortsQuery = { __typename?: 'Query', dashboardCohorts: Array<{ __typename?: 'DashboardCohort', cohortId: string, totalSampleCount?: number | null, billed?: string | null, initialCohortDeliveryDate?: string | null, importDate?: string | null, endUsers?: string | null, pmUsers?: string | null, projectTitle?: string | null, projectSubtitle?: string | null, status?: string | null, type?: string | null, pipelineVersion?: string | null, searchableSampleIds?: string | null, _total?: number | null, _uniqueSampleCount?: number | null, piName?: string | null, projectsIncluded?: Array<string> | null, cohortValidationStatus?: { __typename?: 'DashboardCohortValidationStatus', jsonSchemaValidated: boolean, passesAllChecks: boolean, invalidPmUsers?: Array<string> | null, invalidEndUsers?: Array<string> | null, invalidTempoSamples?: Array<{ __typename?: 'DashboardCohortValidationSample', primaryId?: string | null, cmoId?: string | null, conflictReason?: string | null, unpairedReason?: string | null, tumorNotFound?: string | null, normalCmoId?: string | null, normalPrimaryId?: string | null }> | null } | null }> };
+export type DashboardCohortsQuery = { __typename?: 'Query', dashboardCohorts: Array<{ __typename?: 'DashboardCohort', cohortId: string, totalSampleCount?: number | null, billed?: string | null, initialCohortDeliveryDate?: string | null, importDate?: string | null, endUsers?: string | null, pmUsers?: string | null, projectTitle?: string | null, projectSubtitle?: string | null, status?: string | null, type?: string | null, pipelineVersion?: string | null, searchableSampleIds?: string | null, searchableProjectsIncluded?: string | null, _total?: number | null, _uniqueSampleCount?: number | null, piName?: string | null, projectsIncluded?: Array<string> | null, cohortValidationStatus?: { __typename?: 'DashboardCohortValidationStatus', jsonSchemaValidated: boolean, passesAllChecks: boolean, invalidPmUsers?: Array<string> | null, invalidEndUsers?: Array<string> | null, invalidTempoSamples?: Array<{ __typename?: 'DashboardCohortValidationSample', primaryId?: string | null, cmoId?: string | null, conflictReason?: string | null, unpairedReason?: string | null, tumorNotFound?: string | null, normalCmoId?: string | null, normalPrimaryId?: string | null }> | null } | null }> };
 
 export type DashboardSamplesQueryVariables = Exact<{
   searchVals?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -12265,7 +12267,7 @@ export type UpdateTempoCohortMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTempoCohortMutation = { __typename?: 'Mutation', updateTempoCohort?: { __typename?: 'DashboardCohort', cohortId: string, totalSampleCount?: number | null, billed?: string | null, initialCohortDeliveryDate?: string | null, importDate?: string | null, endUsers?: string | null, pmUsers?: string | null, projectTitle?: string | null, projectSubtitle?: string | null, status?: string | null, type?: string | null, pipelineVersion?: string | null, searchableSampleIds?: string | null, _total?: number | null, _uniqueSampleCount?: number | null, piName?: string | null, samples?: Array<{ __typename?: 'TempoCohortSample', primaryId: string }> | null } | null };
+export type UpdateTempoCohortMutation = { __typename?: 'Mutation', updateTempoCohort?: { __typename?: 'DashboardCohort', cohortId: string, totalSampleCount?: number | null, billed?: string | null, initialCohortDeliveryDate?: string | null, importDate?: string | null, endUsers?: string | null, pmUsers?: string | null, projectTitle?: string | null, projectSubtitle?: string | null, status?: string | null, type?: string | null, pipelineVersion?: string | null, searchableSampleIds?: string | null, searchableProjectsIncluded?: string | null, _total?: number | null, _uniqueSampleCount?: number | null, piName?: string | null, samples?: Array<{ __typename?: 'TempoCohortSample', primaryId: string }> | null } | null };
 
 export type PublishNewTempoCohortRequestMutationVariables = Exact<{
   tempoCohortRequest: TempoCohortRequestInput;
@@ -12558,6 +12560,7 @@ export const DashboardCohortsDocument = gql`
     type
     pipelineVersion
     searchableSampleIds
+    searchableProjectsIncluded
     _total
     _uniqueSampleCount
     cohortValidationStatus {
@@ -12898,6 +12901,7 @@ export const UpdateTempoCohortDocument = gql`
     type
     pipelineVersion
     searchableSampleIds
+    searchableProjectsIncluded
     _total
     _uniqueSampleCount
     samples {

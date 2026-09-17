@@ -24,6 +24,7 @@ const FIELDS_TO_SEARCH = [
   "status",
   "type",
   "searchableSampleIds", // hidden searchable field,
+  "searchableProjectsIncluded", // hidden searchable field,
   "pipelineVersion",
 ];
 
@@ -95,8 +96,7 @@ export function buildCohortsQueryBody({
       REDUCE(sum = 0, x in COLLECT(billedCounts) | sum + x) AS billedCount,
       apoc.coll.toSet(
         COLLECT(DISTINCT latestSm[0].cmoSampleName) +
-        COLLECT(DISTINCT latestSm[0].primaryId) +
-        [x IN COLLECT(DISTINCT latestSm[0].igoRequestId) WHERE x IS NOT NULL]
+        COLLECT(DISTINCT latestSm[0].primaryId)
       ) AS searchableSampleIds,
       apoc.coll.toSet(
         [x IN COLLECT(DISTINCT latestSm[0].igoRequestId) WHERE x IS NOT NULL]
@@ -133,6 +133,7 @@ export function buildCohortsQueryBody({
       sampleIdsByCohort: sampleIdsByCohort,
       totalSampleCount: totalSampleCount,
       searchableSampleIds: apoc.text.join(searchableSampleIds, ","),
+      searchableProjectsIncluded: apoc.text.join(projectsIncluded, ","),
       projectsIncluded: projectsIncluded,
       billed: billed,
       initialCohortDeliveryDate: initialCohortDeliveryDate

@@ -102,6 +102,7 @@ query DashboardCohorts(
     type
     pipelineVersion
     searchableSampleIds
+    searchableProjectsIncluded
     _total
     _uniqueSampleCount
     cohortValidationStatus {
@@ -347,6 +348,7 @@ mutation UpdateTempoCohort($dashboardCohort: DashboardCohortInput!) {
     type
     pipelineVersion
     searchableSampleIds
+    searchableProjectsIncluded
     _total
     _uniqueSampleCount
     samples {
